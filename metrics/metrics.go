@@ -39,3 +39,10 @@ type Snapshot struct {
 	Failed       int64
 	DeadLettered int64
 }
+
+// InFlight returns the number of jobs currently being processed.
+// This is calculated as Dequeued minus the sum of Completed, Failed,
+// and DeadLettered jobs.
+func (s Snapshot) InFlight() int64 {
+	return s.Dequeued - s.Completed - s.Failed - s.DeadLettered
+}
