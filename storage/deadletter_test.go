@@ -58,6 +58,18 @@ func TestDeadLetterStore_Remove(t *testing.T) {
 	}
 }
 
+// TestDeadLetterStore_Remove_Missing verifies that removing a non-existent
+// entry does not panic or affect the store's size.
+func TestDeadLetterStore_Remove_Missing(t *testing.T) {
+	dl := storage.NewDeadLetterStore()
+	dl.Add(deadRecord("dl-3"), "exhausted")
+	dl.Remove("does-not-exist")
+
+	if dl.Size() != 1 {
+		t.Errorf("expected size 1 after removing missing entry, got %d", dl.Size())
+	}
+}
+
 func TestDeadLetterStore_All(t *testing.T) {
 	dl := storage.NewDeadLetterStore()
 	for _, id := range []string{"x", "y", "z"} {
