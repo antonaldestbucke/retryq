@@ -21,5 +21,10 @@
 //
 // [NewJitter] wraps any backoff function with a jitter strategy to spread
 // retries across time and avoid thundering-herd problems. Three strategies
-// are available: JitterNone, JitterFull, and JitterEqual.
+// are available:
+//
+//   - [JitterNone]: no jitter; delays are deterministic.
+//   - [JitterFull]: delay is a random value in [0, computed delay].
+//   - [JitterEqual]: delay is half the computed value plus a random value in
+//     [0, half the computed value], keeping retries closer to the base delay.
 package retry
